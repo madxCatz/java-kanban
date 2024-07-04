@@ -3,7 +3,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Start!");
 
-        TaskManager manager = new TaskManager();
+        TaskManager manager = Managers.getDefault();
 
         Task firstProject = new Task("Первый проект", "Написать код для конструктора обедов",
                 TaskStatus.NEW);
@@ -28,39 +28,31 @@ public class Main {
                 TaskStatus.NEW, startWorking.getId());
         manager.add(startPoint);
 
-        System.out.println(manager.getAllTasks());
-        System.out.println();
-        System.out.println(manager.getAllEpics());
-        System.out.println();
-        System.out.println(manager.getAllSubtasks());
-        System.out.println("-------------------------------------------------------------------------");
+        printAllTasks(manager);
+    }
 
-        manager.update(new Task("Первый проект", "Написать код для конструктора обедов",
-                TaskStatus.IN_PROGRESS), firstProject.getId());
-        manager.update(new Task("Второй проект", "Создать приложение трекер-задач",
-                TaskStatus.DONE), secondProject.getId());
-        manager.update(new Subtask("Собрать вещи", "Собрать в сумки все вещи в квартире",
-                TaskStatus.DONE, removal.getId()), stageOne.getId());
-        manager.update(new Subtask("Заказать машину", "Воспользоваться сервисом перевозок " +
-                "для вызова грузовой машины", TaskStatus.IN_PROGRESS, removal.getId()), stageTwo.getId());
-        manager.update(new Subtask("Включить компьютер", "Нажать кнопку ПУСК",
-                TaskStatus.DONE, startWorking.getId()), startPoint.getId());
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("Задачи:");
+        for (Task task : manager.getAllTasks()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Task epic : manager.getAllEpics()) {
+            System.out.println(epic);
 
-        System.out.println(manager.getAllTasks());
-        System.out.println();
-        System.out.println(manager.getAllEpics());
-        System.out.println();
-        System.out.println(manager.getAllSubtasks());
-        System.out.println("-------------------------------------------------------------------------");
+            for (Task task : manager.getEpicSubtasks(epic.getId())) {
+                System.out.println("--> " + task);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getAllSubtasks()) {
+            System.out.println(subtask);
+        }
 
-        manager.removeTask(firstProject.getId());
-        manager.removeEpic(startWorking.getId());
-
-        System.out.println(manager.getAllTasks());
-        System.out.println();
-        System.out.println(manager.getAllEpics());
-        System.out.println();
-        System.out.println(manager.getAllSubtasks());
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
     }
 
 }
