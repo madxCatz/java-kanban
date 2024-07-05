@@ -35,5 +35,12 @@ class InMemoryHistoryManagerTest {
         }
 
         assertEquals(10, history.size(), "Размер списка не равен десяти.");
+
+        Task task2 = new Task("Task_Two", "Description Task_Two", TaskStatus.NEW);
+        historyManager.add(task2);
+
+        assertEquals(task1, history.getFirst(), "Задачи не совпадают.");
+        assertEquals(task2, history.getLast(), "Задачи не совпадают.");
+        assertEquals(10, history.size(), "Размер списка не равен десяти.");
     }
 }

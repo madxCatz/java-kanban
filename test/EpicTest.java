@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,7 +31,7 @@ class EpicTest {
 
     @Test
     public void checkingFullnessOfListSubtasks() {
-        ArrayList<Integer> subtaskIds = epic1.getSubtaskIds();
+        List<Integer> subtaskIds = epic1.getSubtaskIds();
 
         assertEquals(1, subtaskIds.size(), "Неверное количество подзадач.");
         assertEquals(subtask1.getId(), subtaskIds.getFirst(), "Id не совпадают.");

@@ -4,6 +4,7 @@ public class Main {
         System.out.println("Start!");
 
         TaskManager manager = Managers.getDefault();
+        HistoryManager history = Managers.getDefaultHistory();
 
         Task firstProject = new Task("Первый проект", "Написать код для конструктора обедов",
                 TaskStatus.NEW);
@@ -28,10 +29,10 @@ public class Main {
                 TaskStatus.NEW, startWorking.getId());
         manager.add(startPoint);
 
-        printAllTasks(manager);
+        printAllTasks(manager, history);
     }
 
-    private static void printAllTasks(TaskManager manager) {
+    public static void printAllTasks(TaskManager manager, HistoryManager history) {
         System.out.println("Задачи:");
         for (Task task : manager.getAllTasks()) {
             System.out.println(task);
@@ -50,7 +51,7 @@ public class Main {
         }
 
         System.out.println("История:");
-        for (Task task : manager.getHistory()) {
+        for (Task task : history.getHistory()) {
             System.out.println(task);
         }
     }

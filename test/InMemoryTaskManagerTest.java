@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,9 +29,9 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void checkingForItemsInHashMaps() {
-        ArrayList<Task> taskList = manager.getAllTasks();
-        ArrayList<Epic> epicList = manager.getAllEpics();
-        ArrayList<Subtask> subtaskList = manager.getAllSubtasks();
+        List<Task> taskList = manager.getAllTasks();
+        List<Epic> epicList = manager.getAllEpics();
+        List<Subtask> subtaskList = manager.getAllSubtasks();
 
         assertFalse(taskList.isEmpty(), "Список задач не пустой.");
         assertFalse(epicList.isEmpty(), "Список эпиков не пустой.");
@@ -68,8 +68,10 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void checkingSaveHistoryPreviousVersionOfTask() {
-        manager.getHistory().clear();
-        assertTrue(manager.getHistory().isEmpty(), "Список должен быть пуст.");
+        HistoryManager history = Managers.getDefaultHistory();
+        history.getHistory().clear();
+
+        assertTrue(history.getHistory().isEmpty(), "Список должен быть пуст.");
 
         Task task2 = new Task("Task_Two", "Description Task_Two",
                 TaskStatus.NEW);
@@ -78,9 +80,9 @@ class InMemoryTaskManagerTest {
 
         String name = "Task_Two";
         TaskStatus status = TaskStatus.NEW;
-        Task task = manager.getHistory().getFirst();
+        Task task = history.getHistory().getFirst();
 
-        assertEquals(1, manager.getHistory().size(), "Неправильное количество просмотров.");
+        assertEquals(1, history.getHistory().size(), "Неправильное количество просмотров.");
         assertEquals(name, task.getTaskName(), "Название не совпадает");
         assertEquals(status, task.getStatus(), "Статус не совпадает.");
 
@@ -88,19 +90,19 @@ class InMemoryTaskManagerTest {
                 TaskStatus.IN_PROGRESS), task2.getId());
         System.out.println(manager.getTask(task2.getId()));
 
-        assertEquals(2, manager.getHistory().size(), "Неправильное количество просмотров.");
+        assertEquals(2, history.getHistory().size(), "Неправильное количество просмотров.");
         assertEquals(name, task.getTaskName(), "Название не совпадает");
         assertEquals(status, task.getStatus(), "Статус не совпадает.");
 
         name = "Update_Task_Two";
         status = TaskStatus.IN_PROGRESS;
-        task = manager.getHistory().getLast();
+        task = history.getHistory().getLast();
 
         assertEquals(name, task.getTaskName(), "Название не совпадает");
         assertEquals(status, task.getStatus(), "Статус не совпадает.");
 
         manager.removeTask(task2.getId());
 
-        assertEquals(2, manager.getHistory().size(), "Неправильное количество просмотров.");
+        assertEquals(2, history.getHistory().size(), "Неправильное количество просмотров.");
     }
 }
