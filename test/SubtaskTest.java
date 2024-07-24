@@ -33,7 +33,7 @@ class SubtaskTest {
         Subtask subtask = manager.getSubtask(2);
 
         assertEquals(subtask1, subtask, "Подзадачи не совпадают.");
-        assertNotEquals(subtask1, subtask2, "Подзадачи не должны совпадают.");
+        assertNotEquals(subtask1, subtask2, "Подзадачи не должны совпадать.");
     }
 
     @Test

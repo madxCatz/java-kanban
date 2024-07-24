@@ -24,7 +24,7 @@ class EpicTest {
         manager.add(epic1);
         manager.add(epic2);
 
-        subtask1 = new Subtask("Subtask_One", "Description Subtask_One",
+        subtask1 = new Subtask("Subtask_1", "Description Subtask_1",
                 TaskStatus.NEW, epic1.getId());
         manager.add(subtask1);
     }
@@ -32,46 +32,54 @@ class EpicTest {
     @Test
     public void checkingFullnessOfListSubtasks() {
         List<Integer> subtaskIds = epic1.getSubtaskIds();
-
         assertEquals(1, subtaskIds.size(), "Неверное количество подзадач.");
         assertEquals(subtask1.getId(), subtaskIds.getFirst(), "Id не совпадают.");
 
         subtaskIds = epic2.getSubtaskIds();
-
         assertTrue(subtaskIds.isEmpty(), "Список не пустой.");
     }
 
     @Test
-    public void receivingAndComparingEpicsById() {
-        int id = epic1.getId();
-
-        assertNotEquals(id, epic2.getId(), "Эпики не должны совпадать.");
-
-        Epic epic = manager.getEpic(1);
-
-        assertEquals(epic1, epic, "Эпики не совпадают.");
-        assertEquals(1, epic1.getId());
-        assertEquals(2, epic2.getId());
+    public void receivingAndComparingEpics() {
+        assertNotEquals(epic1, epic2, "Эпики не должны совпадать.");
+        assertNotEquals(epic1.getId(), epic2.getId(), "Id не должны совпадать.");
     }
 
     @Test
     public void changingStatusOfEpic() {
-        assertEquals(TaskStatus.NEW, epic1.getStatus(), "Статус эпика - NEW.");
+        assertEquals(TaskStatus.NEW, epic2.getStatus(), "Статус эпика - NEW.");
 
-        manager.update(new Subtask("SubtaskOne", "Description SubtaskOne",
-                TaskStatus.DONE, epic1.getId()), subtask1.getId());
-
-        assertEquals(TaskStatus.DONE, epic1.getStatus(), "Статус эпика - DONE.");
-
-        Subtask subtask2 = new Subtask("SubtaskTwo", "Description SubtaskTwo",
-                TaskStatus.NEW, epic1.getId());
+        Subtask subtask2 = new Subtask("Subtask_2", "Description Subtask_2",
+                TaskStatus.NEW, epic2.getId());
+        Subtask subtask3 = new Subtask("Subtask_3", "Description Subtask_3",
+                TaskStatus.NEW, epic2.getId());
         manager.add(subtask2);
+        manager.add(subtask3);
+        assertEquals(TaskStatus.NEW, epic2.getStatus(), "Статус эпика - NEW.");
+        assertEquals(2, epic2.getSubtaskIds().size(), "Неверное количество подзадач.");
 
-        assertEquals(TaskStatus.IN_PROGRESS, epic1.getStatus(), "Статус эпика - IN_PROGRESS.");
+        manager.update(new Subtask("Subtask_2", "Description Subtask_2",
+                TaskStatus.IN_PROGRESS, epic2.getId()), subtask2.getId());
+        assertEquals(TaskStatus.IN_PROGRESS, epic2.getStatus(), "Статус эпика - IN_PROGRESS.");
 
-        manager.update(new Subtask("SubtaskTwo", "Description SubtaskTwo",
-                TaskStatus.DONE, epic1.getId()), subtask2.getId());
+        manager.update(new Subtask("Subtask_3", "Description Subtask_3",
+                TaskStatus.DONE, epic2.getId()), subtask3.getId());
+        assertEquals(TaskStatus.IN_PROGRESS, epic2.getStatus(), "Статус эпика - IN_PROGRESS.");
 
-        assertEquals(TaskStatus.DONE, epic1.getStatus(), "Статус эпика - DONE.");
+        manager.update(new Subtask("Subtask_2", "Description Subtask_2",
+                TaskStatus.DONE, epic2.getId()), subtask2.getId());
+        assertEquals(TaskStatus.DONE, epic2.getStatus(), "Статус эпика - DONE.");
+
+        Subtask subtask4 = new Subtask("Subtask_4", "Description Subtask_4",
+                TaskStatus.NEW, epic2.getId());
+        manager.add(subtask4);
+        assertEquals(3, epic2.getSubtaskIds().size(), "Неверное количество подзадач.");
+        assertEquals(TaskStatus.IN_PROGRESS, epic2.getStatus(), "Статус эпика - IN_PROGRESS.");
+
+        manager.removeSubtask(subtask2.getId());
+        manager.removeSubtask(subtask3.getId());
+        manager.removeSubtask(subtask4.getId());
+        assertTrue(epic2.getSubtaskIds().isEmpty(), "Список не пустой.");
+        assertEquals(TaskStatus.NEW, epic2.getStatus(), "Статус эпика - NEW.");
     }
 }
