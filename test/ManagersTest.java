@@ -8,12 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ManagersTest {
 
-    TaskManager manager = Managers.getDefault();
-    HistoryManager historyManager = Managers.getDefaultHistory();
+    private final TaskManager manager = Managers.getDefault();
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Test
     public void checkingInitializationHistoryManager() {
         assertNotNull(historyManager.getHistory(), "История не возвращается.");
+        assertTrue(historyManager.getHistory().isEmpty());
     }
 
     @Test

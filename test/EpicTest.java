@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class EpicTest {
 
-    public static TaskManager manager;
-    public static Epic epic1;
-    public static Epic epic2;
-    public static Subtask subtask1;
+    private static TaskManager manager;
+    private static Epic epic1;
+    private static Epic epic2;
+    private static Subtask subtask1;
 
     @BeforeAll
     public static void preparingForTheTest() {
