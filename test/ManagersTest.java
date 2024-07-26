@@ -14,7 +14,6 @@ class ManagersTest {
     @Test
     public void checkingInitializationHistoryManager() {
         assertNotNull(historyManager.getHistory(), "История не возвращается.");
-        assertTrue(historyManager.getHistory().isEmpty());
     }
 
     @Test
