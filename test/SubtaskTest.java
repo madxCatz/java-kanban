@@ -6,16 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class SubtaskTest {
 
-    public static TaskManager manager;
-    public static Epic epic1;
-    public static Subtask subtask1;
-    public static Subtask subtask2;
+    private static TaskManager manager;
+    private static Subtask subtask1;
+    private static Subtask subtask2;
 
     @BeforeAll
     public static void preparingForTheTest() {
         manager = Managers.getDefault();
 
-        epic1 = new Epic("NewEpic_1", "Description NewEpic_1", TaskStatus.NEW);
+        Epic epic1 = new Epic("NewEpic_1", "Description NewEpic_1", TaskStatus.NEW);
         manager.add(epic1);
 
         subtask1 = new Subtask("Subtask_One", "Description Subtask_One",
@@ -33,7 +32,7 @@ class SubtaskTest {
         Subtask subtask = manager.getSubtask(2);
 
         assertEquals(subtask1, subtask, "Подзадачи не совпадают.");
-        assertNotEquals(subtask1, subtask2, "Подзадачи не должны совпадают.");
+        assertNotEquals(subtask1, subtask2, "Подзадачи не должны совпадать.");
     }
 
     @Test

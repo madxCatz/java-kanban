@@ -15,24 +15,33 @@ public class Main {
 
         Epic removal = new Epic("Переезд", "Подготовка к переезду", TaskStatus.NEW);
         manager.add(removal);
-        Subtask stageOne = new Subtask("Собрать вещи", "Собрать в сумки все вещи в квартире",
+        Subtask stageOne = new Subtask("Арендовать квартиру.", "Найти подходящую квартиру " +
+                "и договориться о проживании", TaskStatus.NEW, removal.getId());
+        Subtask stageTwo = new Subtask("Собрать вещи", "Собрать в сумки все вещи в квартире",
                 TaskStatus.NEW, removal.getId());
-        Subtask stageTwo = new Subtask("Заказать машину", "Воспользоваться сервисом перевозок " +
-                "для вызова грузовой машины", TaskStatus.NEW, removal.getId());
+        Subtask stageThree = new Subtask("Заказать машину", "Воспользоваться сервисом " +
+                "грузоперевозок", TaskStatus.NEW, removal.getId());
         manager.add(stageOne);
         manager.add(stageTwo);
+        manager.add(stageThree);
 
         Epic startWorking = new Epic("Начать рабочий день", "Приготовиться к рабочему дню",
                 TaskStatus.NEW);
         manager.add(startWorking);
-        Subtask startPoint = new Subtask("Включить компьютер", "Нажать кнопку ПУСК",
-                TaskStatus.NEW, startWorking.getId());
-        manager.add(startPoint);
 
-        printAllTasks(manager, history);
+        printAllTasks(manager);
+        System.out.println();
+
+        printHistory(history);
+        System.out.println("-------------------------------------------");
+        manager.removeTask(firstProject.getId());
+        printHistory(history);
+        System.out.println("-------------------------------------------");
+        manager.removeEpic(removal.getId());
+        printHistory(history);
     }
 
-    public static void printAllTasks(TaskManager manager, HistoryManager history) {
+    public static void printAllTasks(TaskManager manager) {
         System.out.println("Задачи:");
         for (Task task : manager.getAllTasks()) {
             System.out.println(task);
@@ -49,7 +58,9 @@ public class Main {
         for (Task subtask : manager.getAllSubtasks()) {
             System.out.println(subtask);
         }
+    }
 
+    public static void printHistory(HistoryManager history) {
         System.out.println("История:");
         for (Task task : history.getHistory()) {
             System.out.println(task);

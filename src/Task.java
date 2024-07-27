@@ -31,7 +31,7 @@ public class Task {
         id = nextId;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 

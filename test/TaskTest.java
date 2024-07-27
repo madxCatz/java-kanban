@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class TaskTest {
 
-    public static TaskManager manager;
-    public static Task task1;
-    public static Task task2;
+    private static TaskManager manager;
+    private static Task task1;
+    private static Task task2;
 
     @BeforeAll
     public static void preparingForTheTest() {
